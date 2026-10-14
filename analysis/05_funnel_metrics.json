@@ -1,0 +1,349 @@
+{
+  "meta": {
+    "source": "data/raw/events.csv + data/raw/users.csv (synthetic, seed=42)",
+    "engine": "duckdb 1.5.5",
+    "pandas_version": "3.0.3",
+    "sql": "sql/05_funnel.sql",
+    "value_per_user": 1.0,
+    "impact_score_note": "impact_score = число потерянных пользователей (value_per_user=1.0)"
+  },
+  "funnel_main": {
+    "steps": [
+      "signup",
+      "activation",
+      "paid_subscription"
+    ],
+    "counts": {
+      "signup": 12000,
+      "activation": 9623,
+      "paid_subscription": 3384
+    },
+    "rows": [
+      {
+        "step_index": 1,
+        "step": "signup",
+        "users": 12000,
+        "step_conversion": 1.0,
+        "step_conversion_pct": 100.0,
+        "overall_conversion": 1.0,
+        "overall_conversion_pct": 100.0,
+        "dropoff_n": 0,
+        "dropoff_pct": 0,
+        "impact_score": 0.0
+      },
+      {
+        "step_index": 2,
+        "step": "activation",
+        "users": 9623,
+        "step_conversion": 0.801917,
+        "step_conversion_pct": 80.19,
+        "overall_conversion": 0.801917,
+        "overall_conversion_pct": 80.19,
+        "dropoff_n": 2377,
+        "dropoff_pct": 19.81,
+        "impact_score": 2377.0
+      },
+      {
+        "step_index": 3,
+        "step": "paid_subscription",
+        "users": 3384,
+        "step_conversion": 0.351657,
+        "step_conversion_pct": 35.17,
+        "overall_conversion": 0.282,
+        "overall_conversion_pct": 28.2,
+        "dropoff_n": 6239,
+        "dropoff_pct": 64.83,
+        "impact_score": 6239.0
+      }
+    ],
+    "biggest_dropoff": {
+      "step_index": 3,
+      "step": "paid_subscription",
+      "users": 3384,
+      "step_conversion": 0.351657,
+      "step_conversion_pct": 35.17,
+      "overall_conversion": 0.282,
+      "overall_conversion_pct": 28.2,
+      "dropoff_n": 6239,
+      "dropoff_pct": 64.83,
+      "impact_score": 6239.0
+    },
+    "overall_conversion_pct": 28.2
+  },
+  "funnel_with_renew": {
+    "steps": [
+      "signup",
+      "activation",
+      "paid_subscription",
+      "renew"
+    ],
+    "counts": {
+      "signup": 12000,
+      "activation": 9623,
+      "paid_subscription": 3384,
+      "renew": 2588
+    },
+    "rows": [
+      {
+        "step_index": 1,
+        "step": "signup",
+        "users": 12000,
+        "step_conversion": 1.0,
+        "step_conversion_pct": 100.0,
+        "overall_conversion": 1.0,
+        "overall_conversion_pct": 100.0,
+        "dropoff_n": 0,
+        "dropoff_pct": 0,
+        "impact_score": 0.0
+      },
+      {
+        "step_index": 2,
+        "step": "activation",
+        "users": 9623,
+        "step_conversion": 0.801917,
+        "step_conversion_pct": 80.19,
+        "overall_conversion": 0.801917,
+        "overall_conversion_pct": 80.19,
+        "dropoff_n": 2377,
+        "dropoff_pct": 19.81,
+        "impact_score": 2377.0
+      },
+      {
+        "step_index": 3,
+        "step": "paid_subscription",
+        "users": 3384,
+        "step_conversion": 0.351657,
+        "step_conversion_pct": 35.17,
+        "overall_conversion": 0.282,
+        "overall_conversion_pct": 28.2,
+        "dropoff_n": 6239,
+        "dropoff_pct": 64.83,
+        "impact_score": 6239.0
+      },
+      {
+        "step_index": 4,
+        "step": "renew",
+        "users": 2588,
+        "step_conversion": 0.764775,
+        "step_conversion_pct": 76.48,
+        "overall_conversion": 0.215667,
+        "overall_conversion_pct": 21.57,
+        "dropoff_n": 796,
+        "dropoff_pct": 23.52,
+        "impact_score": 796.0
+      }
+    ],
+    "biggest_dropoff": {
+      "step_index": 3,
+      "step": "paid_subscription",
+      "users": 3384,
+      "step_conversion": 0.351657,
+      "step_conversion_pct": 35.17,
+      "overall_conversion": 0.282,
+      "overall_conversion_pct": 28.2,
+      "dropoff_n": 6239,
+      "dropoff_pct": 64.83,
+      "impact_score": 6239.0
+    },
+    "overall_conversion_pct": 21.57,
+    "ordering_rule": "renew засчитан только если t_renew >= t_paid (0 нарушений в данных)"
+  },
+  "segments": {
+    "channel": [
+      {
+        "segment_type": "channel",
+        "segment": "referral",
+        "signup_users": 1480,
+        "activation_users": 1189,
+        "paid_users": 498,
+        "activation_rate_pct": 80.34,
+        "paid_given_activated_pct": 41.88,
+        "overall_conversion_pct": 33.65,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "channel",
+        "segment": "email",
+        "signup_users": 1074,
+        "activation_users": 863,
+        "paid_users": 340,
+        "activation_rate_pct": 80.35,
+        "paid_given_activated_pct": 39.4,
+        "overall_conversion_pct": 31.66,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "channel",
+        "segment": "organic",
+        "signup_users": 3313,
+        "activation_users": 2637,
+        "paid_users": 932,
+        "activation_rate_pct": 79.6,
+        "paid_given_activated_pct": 35.34,
+        "overall_conversion_pct": 28.13,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "channel",
+        "segment": "content",
+        "signup_users": 1280,
+        "activation_users": 1033,
+        "paid_users": 349,
+        "activation_rate_pct": 80.7,
+        "paid_given_activated_pct": 33.79,
+        "overall_conversion_pct": 27.27,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "channel",
+        "segment": "social",
+        "signup_users": 2201,
+        "activation_users": 1762,
+        "paid_users": 581,
+        "activation_rate_pct": 80.05,
+        "paid_given_activated_pct": 32.97,
+        "overall_conversion_pct": 26.4,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "channel",
+        "segment": "paid_search",
+        "signup_users": 2652,
+        "activation_users": 2139,
+        "paid_users": 684,
+        "activation_rate_pct": 80.66,
+        "paid_given_activated_pct": 31.98,
+        "overall_conversion_pct": 25.79,
+        "biggest_dropoff_step": "paid_subscription"
+      }
+    ],
+    "platform": [
+      {
+        "segment_type": "platform",
+        "segment": "ios",
+        "signup_users": 4071,
+        "activation_users": 3477,
+        "paid_users": 1224,
+        "activation_rate_pct": 85.41,
+        "paid_given_activated_pct": 35.2,
+        "overall_conversion_pct": 30.07,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "platform",
+        "segment": "android",
+        "signup_users": 5251,
+        "activation_users": 4202,
+        "paid_users": 1478,
+        "activation_rate_pct": 80.02,
+        "paid_given_activated_pct": 35.17,
+        "overall_conversion_pct": 28.15,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "platform",
+        "segment": "web",
+        "signup_users": 2678,
+        "activation_users": 1944,
+        "paid_users": 682,
+        "activation_rate_pct": 72.59,
+        "paid_given_activated_pct": 35.08,
+        "overall_conversion_pct": 25.47,
+        "biggest_dropoff_step": "paid_subscription"
+      }
+    ],
+    "country": [
+      {
+        "segment_type": "country",
+        "segment": "Other",
+        "signup_users": 378,
+        "activation_users": 304,
+        "paid_users": 112,
+        "activation_rate_pct": 80.42,
+        "paid_given_activated_pct": 36.84,
+        "overall_conversion_pct": 29.63,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "country",
+        "segment": "RU",
+        "signup_users": 9350,
+        "activation_users": 7529,
+        "paid_users": 2665,
+        "activation_rate_pct": 80.52,
+        "paid_given_activated_pct": 35.4,
+        "overall_conversion_pct": 28.5,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "country",
+        "segment": "AM",
+        "signup_users": 483,
+        "activation_users": 388,
+        "paid_users": 137,
+        "activation_rate_pct": 80.33,
+        "paid_given_activated_pct": 35.31,
+        "overall_conversion_pct": 28.36,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "country",
+        "segment": "KZ",
+        "signup_users": 1073,
+        "activation_users": 844,
+        "paid_users": 286,
+        "activation_rate_pct": 78.66,
+        "paid_given_activated_pct": 33.89,
+        "overall_conversion_pct": 26.65,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "country",
+        "segment": "BY",
+        "signup_users": 716,
+        "activation_users": 558,
+        "paid_users": 184,
+        "activation_rate_pct": 77.93,
+        "paid_given_activated_pct": 32.97,
+        "overall_conversion_pct": 25.7,
+        "biggest_dropoff_step": "paid_subscription"
+      }
+    ],
+    "experiment_group": [
+      {
+        "segment_type": "experiment_group",
+        "segment": "treatment",
+        "signup_users": 1281,
+        "activation_users": 1035,
+        "paid_users": 447,
+        "activation_rate_pct": 80.8,
+        "paid_given_activated_pct": 43.19,
+        "overall_conversion_pct": 34.89,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "experiment_group",
+        "segment": "control",
+        "signup_users": 1271,
+        "activation_users": 1055,
+        "paid_users": 381,
+        "activation_rate_pct": 83.01,
+        "paid_given_activated_pct": 36.11,
+        "overall_conversion_pct": 29.98,
+        "biggest_dropoff_step": "paid_subscription"
+      },
+      {
+        "segment_type": "experiment_group",
+        "segment": "none",
+        "signup_users": 9448,
+        "activation_users": 7533,
+        "paid_users": 2556,
+        "activation_rate_pct": 79.73,
+        "paid_given_activated_pct": 33.93,
+        "overall_conversion_pct": 27.05,
+        "biggest_dropoff_step": "paid_subscription"
+      }
+    ]
+  },
+  "figure": "figures/funnel.png"
+}

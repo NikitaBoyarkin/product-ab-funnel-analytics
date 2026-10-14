@@ -1,0 +1,8 @@
+# Runtime dependencies of the analysis runners (versions observed in the
+# author's environment via `uv pip list`; use `>=` if pinning is too noisy).
+pandas==3.0.3
+numpy==2.4.4
+matplotlib==3.10.9
+duckdb==1.5.5
+scipy==1.17.1
+openpyxl==3.1.5

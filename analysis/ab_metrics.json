@@ -1,0 +1,133 @@
+{
+  "leg": "a/b",
+  "alpha": 0.05,
+  "cohort": {
+    "n_total": 2552,
+    "n_control": 1271,
+    "n_treatment": 1281
+  },
+  "srm": {
+    "n_control": 1271,
+    "n_treatment": 1281,
+    "expected_control": 1276.0,
+    "expected_treatment": 1276.0,
+    "chi2": 0.0392,
+    "p_value": 0.843083,
+    "srm_detected": false
+  },
+  "primary": {
+    "metric": "paid_given_activated",
+    "rate_control": 0.361137,
+    "rate_treatment": 0.431884,
+    "absolute_diff": 0.070747,
+    "relative_lift_pct": 19.59,
+    "z_score": 3.3062,
+    "p_value": 0.000946,
+    "ci_lower": 0.028904,
+    "ci_upper": 0.112589,
+    "alpha": 0.05,
+    "significant": true,
+    "relative_lift_ci95": [
+      0.08003610818055198,
+      0.31176257209867725
+    ]
+  },
+  "secondary": {
+    "metric": "activation_rate",
+    "rate_control": 0.830055,
+    "rate_treatment": 0.807963,
+    "absolute_diff": -0.022093,
+    "relative_lift_pct": -2.66,
+    "z_score": -1.4492,
+    "p_value": 0.147272,
+    "ci_lower": -0.051953,
+    "ci_upper": 0.007768,
+    "alpha": 0.05,
+    "significant": false
+  },
+  "robustness_itt": {
+    "metric": "paid_per_signup",
+    "rate_control": 0.299764,
+    "rate_treatment": 0.348946,
+    "absolute_diff": 0.049182,
+    "relative_lift_pct": 16.41,
+    "z_score": 2.6535,
+    "p_value": 0.007967,
+    "ci_lower": 0.012909,
+    "ci_upper": 0.085455,
+    "alpha": 0.05,
+    "significant": true
+  },
+  "power": {
+    "achieved_power": 0.9113959176881437,
+    "mde_abs": 0.058873578860222986,
+    "mde_rel_pct": 16.302283859095855
+  },
+  "guardrails": {
+    "control": {
+      "refund_rate": 0.03388357949609035,
+      "refund_rate_ci": [
+        0.026492552222321643,
+        0.041274606769859064
+      ],
+      "refunds": 78,
+      "charges": 2302,
+      "payers_with_refund_share": 0.18635170603674542,
+      "cancel_rate_payers": 0.4881889763779528,
+      "cancel_rate_payers_ci": [
+        0.4379969874793594,
+        0.5383809652765462
+      ],
+      "cancelled": 186,
+      "payers": 381
+    },
+    "treatment": {
+      "refund_rate": 0.03197470133520731,
+      "refund_rate_ci": [
+        0.025511060066396363,
+        0.03843834260401825
+      ],
+      "refunds": 91,
+      "charges": 2846,
+      "payers_with_refund_share": 0.18120805369127516,
+      "cancel_rate_payers": 0.465324384787472,
+      "cancel_rate_payers_ci": [
+        0.4190844274968891,
+        0.5115643420780549
+      ],
+      "cancelled": 208,
+      "payers": 447
+    }
+  },
+  "per_group_counts": [
+    {
+      "experiment_group": "control",
+      "users": 1271,
+      "paid_given_activated_num": 381.0,
+      "paid_given_activated_den": 1055.0,
+      "activation_num": 1055.0,
+      "activation_den": 1271,
+      "paid_per_signup_num": 381.0,
+      "charges": 2302.0,
+      "refunds": 78.0,
+      "payers_with_refund": 71.0,
+      "payers": 381.0,
+      "cancelled": 186.0
+    },
+    {
+      "experiment_group": "treatment",
+      "users": 1281,
+      "paid_given_activated_num": 447.0,
+      "paid_given_activated_den": 1035.0,
+      "activation_num": 1035.0,
+      "activation_den": 1281,
+      "paid_per_signup_num": 447.0,
+      "charges": 2846.0,
+      "refunds": 91.0,
+      "payers_with_refund": 81.0,
+      "payers": 447.0,
+      "cancelled": 208.0
+    }
+  ],
+  "verdict": "SHIP"
+}

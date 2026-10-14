@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/

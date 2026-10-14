@@ -1,0 +1,118 @@
+{
+  "leg": "rfm",
+  "inputs": {
+    "transactions_total": 16477,
+    "charges_kept": 16044,
+    "refunds_excluded": 433,
+    "refund_share_pct": 2.63,
+    "users_with_charge": 3384,
+    "users_only_refunds": 0,
+    "gross_charges_revenue_rub": 12205060.0,
+    "net_revenue_rub": 11848490.0,
+    "max_transaction_date": "2024-12-31",
+    "min_transaction_date": "2024-01-05",
+    "snapshot_date": "2024-12-31",
+    "bins": 4
+  },
+  "users_scored": 3384,
+  "segments_count": 6,
+  "avg_rfm_score": 7.5,
+  "median_recency_days": 23.0,
+  "median_frequency": 4.0,
+  "median_monetary_rub": 2450.0,
+  "gini": 0.475,
+  "top10pct_revenue_share_pct": 32.65,
+  "top20pct_revenue_share_pct": 50.66,
+  "champions_revenue_share_pct": 18.65,
+  "champions_users": 264,
+  "top_revenue_segment": "Loyal",
+  "top_revenue_segment_share_pct": 37.77,
+  "champions_loyal_revenue_share_pct": 56.43,
+  "atrisk_hibernating_revenue_share_pct": 34.58,
+  "atrisk_hibernating_users": 1692,
+  "total_revenue_rub": 12205060.0,
+  "segments": [
+    {
+      "segment": "Loyal",
+      "customers": 764,
+      "share_customers_pct": 22.58,
+      "revenue_rub": 4610160.0,
+      "share_revenue_pct": 37.77,
+      "concentration_ratio": 1.67,
+      "avg_recency_days": 13.59,
+      "avg_frequency": 7.92,
+      "avg_monetary_rub": 6034.24,
+      "avg_rfm_score": 10.37
+    },
+    {
+      "segment": "At Risk",
+      "customers": 516,
+      "share_customers_pct": 15.25,
+      "revenue_rub": 2649950.0,
+      "share_revenue_pct": 21.71,
+      "concentration_ratio": 1.42,
+      "avg_recency_days": 63.02,
+      "avg_frequency": 6.89,
+      "avg_monetary_rub": 5135.56,
+      "avg_rfm_score": 8.36
+    },
+    {
+      "segment": "Champions",
+      "customers": 264,
+      "share_customers_pct": 7.8,
+      "revenue_rub": 2276760.0,
+      "share_revenue_pct": 18.65,
+      "concentration_ratio": 2.39,
+      "avg_recency_days": 5.59,
+      "avg_frequency": 10.2,
+      "avg_monetary_rub": 8624.09,
+      "avg_rfm_score": 12.0
+    },
+    {
+      "segment": "Hibernating",
+      "customers": 1176,
+      "share_customers_pct": 34.75,
+      "revenue_rub": 1569950.0,
+      "share_revenue_pct": 12.86,
+      "concentration_ratio": 0.37,
+      "avg_recency_days": 171.86,
+      "avg_frequency": 1.76,
+      "avg_monetary_rub": 1334.99,
+      "avg_rfm_score": 4.35
+    },
+    {
+      "segment": "Need Attention",
+      "customers": 570,
+      "share_customers_pct": 16.84,
+      "revenue_rub": 775140.0,
+      "share_revenue_pct": 6.35,
+      "concentration_ratio": 0.38,
+      "avg_recency_days": 11.22,
+      "avg_frequency": 2.47,
+      "avg_monetary_rub": 1359.89,
+      "avg_rfm_score": 7.13
+    },
+    {
+      "segment": "Potential Loyalists",
+      "customers": 94,
+      "share_customers_pct": 2.78,
+      "revenue_rub": 323100.0,
+      "share_revenue_pct": 2.65,
+      "concentration_ratio": 0.95,
+      "avg_recency_days": 12.04,
+      "avg_frequency": 2.77,
+      "avg_monetary_rub": 3437.23,
+      "avg_rfm_score": 8.47
+    }
+  ],
+  "sql_parity": {
+    "checked": true,
+    "rows_python": 3384,
+    "rows_sql": 3384,
+    "segment_counts_match": true
+  },
+  "figures": [
+    "figures/rfm-segments.png",
+    "figures/rfm-lorenz.png"
+  ]
+}

@@ -1,0 +1,4 @@
+plan,txn_cnt,refund_cnt,refund_rate_pct,gross_revenue_rub,refunds_rub,refund_value_pct
+pro,2365,84,3.55,3626790.00,133560.00,3.68
+plus,4716,130,2.76,4081540.00,115700.00,2.83
+basic,9396,219,2.33,4496730.00,107310.00,2.39

@@ -1,0 +1,4 @@
+step_order,step,users,step_conv_pct,conv_from_signup_pct
+1,signup,12000,,
+2,activation,9623,80.19,80.19
+3,paid_subscription,3384,35.17,28.20

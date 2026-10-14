@@ -1,0 +1,289 @@
+{
+  "leg": "ltv",
+  "generated_by": "analysis/run_04_ltv.py",
+  "fit": {
+    "model": "R(t) = a * t^(-b)  (OLS в log-space)",
+    "a": 1.0225,
+    "b": 0.3077,
+    "r_squared": 0.9913,
+    "se": 0.0091,
+    "n_points": 12
+  },
+  "retention_points": [
+    {
+      "t": 1,
+      "r": 1.0
+    },
+    {
+      "t": 2,
+      "r": 0.8247
+    },
+    {
+      "t": 3,
+      "r": 0.7359
+    },
+    {
+      "t": 4,
+      "r": 0.6762
+    },
+    {
+      "t": 5,
+      "r": 0.6297
+    },
+    {
+      "t": 6,
+      "r": 0.5996
+    },
+    {
+      "t": 7,
+      "r": 0.563
+    },
+    {
+      "t": 8,
+      "r": 0.545
+    },
+    {
+      "t": 9,
+      "r": 0.5253
+    },
+    {
+      "t": 10,
+      "r": 0.5093
+    },
+    {
+      "t": 11,
+      "r": 0.4894
+    },
+    {
+      "t": 12,
+      "r": 0.448
+    }
+  ],
+  "economics": {
+    "signups": 12000,
+    "payers": 3384,
+    "conversion_signup_to_paid": 0.282,
+    "active_payer_months": 15815,
+    "arpu_per_active_payer_month_rub": 749.19,
+    "net_revenue_rub": 11848490.0,
+    "gross_revenue_rub": 12205060.0,
+    "cac_mean_rub": 598.48,
+    "cac_median_rub": 540.42
+  },
+  "headline_12m": {
+    "horizon_months": 12,
+    "ltv_per_acquired_rub": 1594.59,
+    "ltv_per_paid_rub": 5654.59,
+    "ltv_cac": 2.664,
+    "payback_months": 4,
+    "extrapolation": "none"
+  },
+  "headline_24m": {
+    "horizon_months": 24,
+    "ltv_per_acquired_rub": 2658.72,
+    "ltv_per_paid_rub": 9428.07,
+    "ltv_cac": 4.442,
+    "payback_months": 4,
+    "extrapolation": "none"
+  },
+  "by_channel": [
+    {
+      "channel": "content",
+      "signups": 1280,
+      "cac_rub": 517.4566,
+      "payers": 349,
+      "conv": 0.2727,
+      "ltv_per_acquired_rub": 1541.758,
+      "ltv_cac": 2.9795,
+      "payback_months": 3
+    },
+    {
+      "channel": "email",
+      "signups": 1074,
+      "cac_rub": 558.8449,
+      "payers": 340,
+      "conv": 0.3166,
+      "ltv_per_acquired_rub": 1790.0922,
+      "ltv_cac": 3.2032,
+      "payback_months": 3
+    },
+    {
+      "channel": "organic",
+      "signups": 3313,
+      "cac_rub": 451.3872,
+      "payers": 932,
+      "conv": 0.2813,
+      "ltv_per_acquired_rub": 1590.7254,
+      "ltv_cac": 3.5241,
+      "payback_months": 3
+    },
+    {
+      "channel": "paid_search",
+      "signups": 2652,
+      "cac_rub": 848.5241,
+      "payers": 684,
+      "conv": 0.2579,
+      "ltv_per_acquired_rub": 1458.4224,
+      "ltv_cac": 1.7188,
+      "payback_months": 6
+    },
+    {
+      "channel": "referral",
+      "signups": 1480,
+      "cac_rub": 427.4882,
+      "payers": 498,
+      "conv": 0.3365,
+      "ltv_per_acquired_rub": 1902.6915,
+      "ltv_cac": 4.4509,
+      "payback_months": 2
+    },
+    {
+      "channel": "social",
+      "signups": 2201,
+      "cac_rub": 700.0326,
+      "payers": 581,
+      "conv": 0.264,
+      "ltv_per_acquired_rub": 1492.6461,
+      "ltv_cac": 2.1323,
+      "payback_months": 5
+    }
+  ],
+  "by_cohort": [
+    {
+      "cohort": "2024-01",
+      "cohort_payers": 221,
+      "months_observed": 12,
+      "observed_net_revenue_rub": 1165220.0,
+      "observed_ltv_per_payer_rub": 5272.49,
+      "model_ltv_per_payer_rub": 5654.59,
+      "model_ltv_per_acquired_rub": 1594.59,
+      "censored": false
+    },
+    {
+      "cohort": "2024-02",
+      "cohort_payers": 251,
+      "months_observed": 11,
+      "observed_net_revenue_rub": 1323570.0,
+      "observed_ltv_per_payer_rub": 5273.19,
+      "model_ltv_per_payer_rub": 5297.94,
+      "model_ltv_per_acquired_rub": 1494.02,
+      "censored": true
+    },
+    {
+      "cohort": "2024-03",
+      "cohort_payers": 392,
+      "months_observed": 10,
+      "observed_net_revenue_rub": 1947260.0,
+      "observed_ltv_per_payer_rub": 4967.5,
+      "model_ltv_per_payer_rub": 4931.61,
+      "model_ltv_per_acquired_rub": 1390.71,
+      "censored": true
+    },
+    {
+      "cohort": "2024-04",
+      "cohort_payers": 381,
+      "months_observed": 9,
+      "observed_net_revenue_rub": 1738940.0,
+      "observed_ltv_per_payer_rub": 4564.15,
+      "model_ltv_per_payer_rub": 4554.39,
+      "model_ltv_per_acquired_rub": 1284.34,
+      "censored": true
+    },
+    {
+      "cohort": "2024-05",
+      "cohort_payers": 320,
+      "months_observed": 8,
+      "observed_net_revenue_rub": 1326990.0,
+      "observed_ltv_per_payer_rub": 4146.84,
+      "model_ltv_per_payer_rub": 4164.73,
+      "model_ltv_per_acquired_rub": 1174.45,
+      "censored": true
+    },
+    {
+      "cohort": "2024-06",
+      "cohort_payers": 259,
+      "months_observed": 7,
+      "observed_net_revenue_rub": 960090.0,
+      "observed_ltv_per_payer_rub": 3706.91,
+      "model_ltv_per_payer_rub": 3760.7,
+      "model_ltv_per_acquired_rub": 1060.52,
+      "censored": true
+    },
+    {
+      "cohort": "2024-07",
+      "cohort_payers": 254,
+      "months_observed": 6,
+      "observed_net_revenue_rub": 901910.0,
+      "observed_ltv_per_payer_rub": 3550.83,
+      "model_ltv_per_payer_rub": 3339.72,
+      "model_ltv_per_acquired_rub": 941.8,
+      "censored": true
+    },
+    {
+      "cohort": "2024-08",
+      "cohort_payers": 223,
+      "months_observed": 5,
+      "observed_net_revenue_rub": 660560.0,
+      "observed_ltv_per_payer_rub": 2962.15,
+      "model_ltv_per_payer_rub": 2898.3,
+      "model_ltv_per_acquired_rub": 817.32,
+      "censored": true
+    },
+    {
+      "cohort": "2024-09",
+      "cohort_payers": 281,
+      "months_observed": 4,
+      "observed_net_revenue_rub": 705470.0,
+      "observed_ltv_per_payer_rub": 2510.57,
+      "model_ltv_per_payer_rub": 2431.41,
+      "model_ltv_per_acquired_rub": 685.66,
+      "censored": true
+    },
+    {
+      "cohort": "2024-10",
+      "cohort_payers": 288,
+      "months_observed": 3,
+      "observed_net_revenue_rub": 549680.0,
+      "observed_ltv_per_payer_rub": 1908.61,
+      "model_ltv_per_payer_rub": 1931.34,
+      "model_ltv_per_acquired_rub": 544.64,
+      "censored": true
+    },
+    {
+      "cohort": "2024-11",
+      "cohort_payers": 251,
+      "months_observed": 2,
+      "observed_net_revenue_rub": 369930.0,
+      "observed_ltv_per_payer_rub": 1473.82,
+      "model_ltv_per_payer_rub": 1384.99,
+      "model_ltv_per_acquired_rub": 390.57,
+      "censored": true
+    },
+    {
+      "cohort": "2024-12",
+      "cohort_payers": 263,
+      "months_observed": 1,
+      "observed_net_revenue_rub": 198870.0,
+      "observed_ltv_per_payer_rub": 756.16,
+      "model_ltv_per_payer_rub": 766.05,
+      "model_ltv_per_acquired_rub": 216.03,
+      "censored": true
+    }
+  ],
+  "sensitivities": {
+    "baseline": {
+      "conv": 0.282,
+      "ltv_per_acquired_12m": 1594.59
+    },
+    "conv_uplift_ab_+19.6pct": {
+      "conv": 0.3372,
+      "ltv_per_acquired_12m": 1906.97
+    },
+    "retention_b_+10pct": {
+      "ltv_per_acquired_12m": 1523.7
+    },
+    "retention_b_-10pct": {
+      "ltv_per_acquired_12m": 1669.78
+    }
+  }
+}
