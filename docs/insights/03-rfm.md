@@ -129,7 +129,9 @@ Champions малочисленны (**264**, 7.8%) и почти исчерпа�
 
 ```bash
 # все числа + обе таблицы + оба графика
-uv run --project "/Users/nikitaboarkin/Desktop/00 obsidian/obsidian" python analysis/run_03_rfm.py
+# нужен python с зависимостями из requirements.txt;
+# для импорта ядра скилла задайте DSWOK_SKILLS_ROOT=<путь>/.claude/skills
+python analysis/run_03_rfm.py
 ```
 
 Замечание по формату: числа в отчёте приведены без разделителей разрядов (12205060, а не 12 205 060), чтобы их можно было сверять со значением из `rfm_metrics.json` буквальным поиском.

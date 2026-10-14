@@ -225,7 +225,7 @@ GROUP BY 1 ORDER BY refund_rate_pct DESC;
 ```bash
 # из корня репозитория: исполняет sql/01_sql.sql (5 запросов), печатает каждый
 # результат и перезаписывает sql/results/01_*.csv
-uv run --project "/Users/nikitaboarkin/Desktop/00 obsidian/obsidian" python sql/run_01_sql.py
+python sql/run_01_sql.py   # нужен python с зависимостями из requirements.txt
 ```
 
 Скрипт делает `chdir` в корень проекта, поэтому относительные пути
