@@ -268,12 +268,94 @@ def main() -> None:
             "conv": round(conv_treat, 4),
             "ltv_per_acquired_12m": round(ltv_acq(conv_treat), 2),
         },
-        "retention_b_+10pct": {  # faster decay
+        # Decay-exponent shocks. NOTE: b×0.9 is NOT a "+10% retention"
+        # scenario — it is "the tail decays 10% slower", which lifts the
+        # curve by only ~2..8% pointwise over months 2..12. Named for what
+        # it is; the equal-step "+10% retention" comparison lives in
+        # `iso_magnitude` below.
+        "retention_decay_b_+10pct": {  # faster decay
             "ltv_per_acquired_12m": round(ltv_acq(conv, 1.10), 2),
         },
-        "retention_b_-10pct": {  # slower decay
+        "retention_decay_b_-10pct": {  # slower decay
             "ltv_per_acquired_12m": round(ltv_acq(conv, 0.90), 2),
         },
+    }
+
+    # --- iso-magnitude lever comparison (B39) -------------------------------
+    # The A/B uplift (+19.59% relative on activation→paid) and a retention
+    # change are different-size levers. Comparing them head-on ("conversion is
+    # N× stronger") only measures the step sizes: 19.59% vs a decay shock that
+    # is ~+5% on the curve over 12 months. Both levers are therefore
+    # normalised to the same relative step (+10%) before being compared.
+    #
+    # Conversion is exactly multiplicative in LTV per acquired:
+    #     LTV = conv × Σ_t ARPU · R(t)
+    # so a +10% relative step on conv is +10.0% on LTV — no re-integration.
+    #
+    # Retention cannot lift month 1: R(1) is already the entire paying cohort
+    # (t = month of the first payment). A "+10% retention curve" therefore
+    # scales R(t) for t ≥ 2 only and is capped at R(1), which makes it
+    # sub-linear in LTV. `ltv_acq_retention` mirrors `rl.cohort_ltv`'s revenue
+    # formula (same ARPU, same numerator/denominator) with that one multiplier
+    # added; it is asserted to reproduce the baseline to the kopeck at mult=1.
+    r1 = rl.predict(1, fit)
+
+    def ltv_acq_retention(mult: float, conv_override: float = conv) -> float:
+        cum = 0.0
+        for t in range(1, HORIZON_PRIMARY + 1):
+            r = r1 if t == 1 else min(r1, mult * rl.predict(t, fit))
+            cum += n_signups * conv_override * r * arpu_per_period
+        return cum / n_signups
+
+    ISO_STEP_PCT = 10.0
+    iso_mult = 1.0 + ISO_STEP_PCT / 100.0
+
+    base_ltv = ltv_acq(conv)
+    if abs(ltv_acq_retention(1.0) - base_ltv) > 0.01:
+        raise AssertionError(
+            "ltv_acq_retention(1.0) must reproduce the core baseline "
+            f"({ltv_acq_retention(1.0):.2f} vs {base_ltv:.2f})"
+        )
+
+    conv_step_ltv = ltv_acq(conv * iso_mult)
+    ret_step_ltv = ltv_acq_retention(iso_mult)
+    conv_step_delta_pct = (conv_step_ltv / base_ltv - 1.0) * 100.0
+    ret_step_delta_pct = (ret_step_ltv / base_ltv - 1.0) * 100.0
+
+    # Retention multiplier that would deliver the A/B's measured conversion
+    # lift. LTV(m) is affine in m above the cap (month-1 revenue is untouched),
+    # so solve it in closed form: LTV(m) = month1 + m × (base − month1).
+    month1_ltv = ltv_acq_retention(0.0)
+    ret_mult_for_ab = 1.0 + (ab_rel_lift_pct / 100.0) * base_ltv / (
+        base_ltv - month1_ltv
+    )
+
+    iso_magnitude = {
+        "purpose": (
+            "equal +10% relative step on each lever, same model / ARPU / "
+            "conversion / 12-month horizon — the only fair way to say which "
+            "lever is stronger"
+        ),
+        "step_pct": ISO_STEP_PCT,
+        "horizon_months": HORIZON_PRIMARY,
+        "retention_step_definition": (
+            "R(t) × 1.10 for t ≥ 2, capped at R(1); month 1 is unchanged "
+            "because it already holds 100% of the paying cohort"
+        ),
+        "conversion_plus10pct": {
+            "conv": round(conv * iso_mult, 4),
+            "ltv_per_acquired_12m": round(conv_step_ltv, 2),
+            "delta_pct": round(conv_step_delta_pct, 2),
+        },
+        "retention_plus10pct": {
+            "ltv_per_acquired_12m": round(ret_step_ltv, 2),
+            "delta_pct": round(ret_step_delta_pct, 2),
+        },
+        "ratio_conversion_over_retention": round(
+            conv_step_delta_pct / ret_step_delta_pct, 2
+        ),
+        "ab_uplift_pct": round(ab_rel_lift_pct, 2),
+        "retention_multiplier_equivalent_to_ab_uplift": round(ret_mult_for_ab, 3),
     }
 
     # --- band ---------------------------------------------------------------
@@ -323,6 +405,7 @@ def main() -> None:
         "by_channel": chan.round(4).to_dict(orient="records"),
         "by_cohort": cohort_df.to_dict(orient="records"),
         "sensitivities": sensitivities,
+        "iso_magnitude": iso_magnitude,
     }
     (OUT_DIR / "ltv_metrics.json").write_text(
         json.dumps(metrics, ensure_ascii=False, indent=2)
@@ -350,6 +433,7 @@ def main() -> None:
     print("\nBY CHANNEL\n" + chan.to_string(index=False))
     print("\nBY COHORT\n" + cohort_df.to_string(index=False))
     print("\nSENSITIVITIES", json.dumps(sensitivities, ensure_ascii=False))
+    print("ISO-MAGNITUDE", json.dumps(iso_magnitude, ensure_ascii=False))
     print(f"\nWROTE {PROC_DIR / 'retention_points.csv'}")
     print(f"WROTE {PROC_DIR / 'ltv_by_cohort.csv'}")
     print(f"WROTE {OUT_DIR / 'ltv_metrics.json'}")

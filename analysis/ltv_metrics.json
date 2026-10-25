@@ -279,11 +279,29 @@
       "conv": 0.3372,
       "ltv_per_acquired_12m": 1906.97
     },
-    "retention_b_+10pct": {
+    "retention_decay_b_+10pct": {
       "ltv_per_acquired_12m": 1523.7
     },
-    "retention_b_-10pct": {
+    "retention_decay_b_-10pct": {
       "ltv_per_acquired_12m": 1669.78
     }
+  },
+  "iso_magnitude": {
+    "purpose": "equal +10% relative step on each lever, same model / ARPU / conversion / 12-month horizon — the only fair way to say which lever is stronger",
+    "step_pct": 10.0,
+    "horizon_months": 12,
+    "retention_step_definition": "R(t) × 1.10 for t ≥ 2, capped at R(1); month 1 is unchanged because it already holds 100% of the paying cohort",
+    "conversion_plus10pct": {
+      "conv": 0.3102,
+      "ltv_per_acquired_12m": 1754.05,
+      "delta_pct": 10.0
+    },
+    "retention_plus10pct": {
+      "ltv_per_acquired_12m": 1732.45,
+      "delta_pct": 8.65
+    },
+    "ratio_conversion_over_retention": 1.16,
+    "ab_uplift_pct": 19.59,
+    "retention_multiplier_equivalent_to_ab_uplift": 1.227
   }
 }
