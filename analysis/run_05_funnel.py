@@ -39,15 +39,14 @@ FIG_DIR = PROJECT_DIR / "figures"
 OUT_DIR = PROJECT_DIR / "analysis"
 
 # --------------------------------------------------------------------------- delegated core
-# Canonical funnel core (skill `funnel-analysis`). The DSWoK skills root is
-# env-overridable; the author's path is only the default.
-SKILLS_ROOT = Path(
-    os.environ.get(
-        "DSWOK_SKILLS_ROOT",
-        "/Users/nikitaboarkin/Desktop/00 obsidian/obsidian/.claude/skills",
-    )
+# Canonical funnel core (skill `funnel-analysis`). A vendored copy ships in
+# vendor/ so a clean clone runs; DSWOK_SKILLS_ROOT overrides it with the live skill.
+SKILLS_ROOT = os.environ.get("DSWOK_SKILLS_ROOT")
+FUNNEL_CORE_DIR = (
+    Path(SKILLS_ROOT) / "funnel-analysis" / "scripts"
+    if SKILLS_ROOT
+    else PROJECT_DIR / "vendor"
 )
-FUNNEL_CORE_DIR = SKILLS_ROOT / "funnel-analysis" / "scripts"
 sys.path.insert(0, str(FUNNEL_CORE_DIR))
 from funnel_analyzer import (  # noqa: E402
     analyze_funnel,

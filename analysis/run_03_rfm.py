@@ -43,15 +43,15 @@ ANALYSIS_DIR = PROJECT_DIR / "analysis"
 FIG_DIR = PROJECT_DIR / "figures"
 SQL_PATH = PROJECT_DIR / "sql" / "03_rfm.sql"
 
-# Canonical RFM core (delegated — never reimplemented here).
-# The DSWoK skills root is env-overridable; the author's path is only the default.
-SKILLS_ROOT = Path(
-    os.environ.get(
-        "DSWOK_SKILLS_ROOT",
-        "/Users/nikitaboarkin/Desktop/00 obsidian/obsidian/.claude/skills",
-    )
+# Canonical RFM core (delegated — never reimplemented here). A vendored copy
+# ships in vendor/ so a clean clone runs; point DSWOK_SKILLS_ROOT at a DSWoK
+# checkout to use the skill's live version instead.
+SKILLS_ROOT = os.environ.get("DSWOK_SKILLS_ROOT")
+RFM_CORE_DIR = (
+    Path(SKILLS_ROOT) / "rfm-segmentation" / "scripts"
+    if SKILLS_ROOT
+    else PROJECT_DIR / "vendor"
 )
-RFM_CORE_DIR = SKILLS_ROOT / "rfm-segmentation" / "scripts"
 sys.path.insert(0, str(RFM_CORE_DIR))
 import rfm  # noqa: E402
 
@@ -215,7 +215,9 @@ def sql_parity(scored: pd.DataFrame) -> dict:
         line for line in sql_text.splitlines() if not line.strip().startswith("--")
     )
     stmt = body.split(";")[0].strip()
-    sql_df = duckdb.connect().execute(stmt).df()
+    con = duckdb.connect()
+    con.execute(f"SET file_search_path = '{PROJECT_DIR}'")
+    sql_df = con.execute(stmt).df()
     py_counts = scored["Segment"].value_counts().to_dict()
     sql_counts = sql_df["segment"].value_counts().to_dict()
     out = {

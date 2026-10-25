@@ -31,15 +31,15 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from scipy import stats
 
-# --- делегирование: импортируем канонный анализатор скилла ab-test-analysis ---
-# Корень скиллов DSWoK переопределяется через env; абсолютный путь — только дефолт.
-SKILLS_ROOT = Path(
-    os.environ.get(
-        "DSWOK_SKILLS_ROOT",
-        "/Users/nikitaboarkin/Desktop/00 obsidian/obsidian/.claude/skills",
-    )
+# --- делегирование: канонный анализатор скилла ab-test-analysis ---------------
+# В репозитории лежит вендорная копия (vendor/), поэтому чистый клон работает;
+# DSWOK_SKILLS_ROOT переопределяет её живой версией скилла.
+SKILLS_ROOT = os.environ.get("DSWOK_SKILLS_ROOT")
+SKILL_SCRIPTS = (
+    Path(SKILLS_ROOT) / "ab-test-analysis" / "scripts"
+    if SKILLS_ROOT
+    else Path(__file__).resolve().parent.parent / "vendor"
 )
-SKILL_SCRIPTS = SKILLS_ROOT / "ab-test-analysis" / "scripts"
 sys.path.insert(0, str(SKILL_SCRIPTS))
 from ab_test_analyzer import (  # noqa: E402
     analyze_binary_metric,
@@ -64,6 +64,7 @@ def run_sql() -> object:
     """Выполняет SQL-файл, возвращает pandas.DataFrame и сохраняет CSV."""
     con = duckdb.connect()
     con.execute("SET timezone='UTC';")
+    con.execute(f"SET file_search_path = '{ROOT}'")
     df = con.execute(SQL_FILE.read_text(encoding="utf-8")).fetchdf()
     con.close()
     CSV_OUT.parent.mkdir(parents=True, exist_ok=True)

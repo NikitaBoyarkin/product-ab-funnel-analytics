@@ -29,7 +29,6 @@ Usage
 
 from __future__ import annotations
 
-import math
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -425,7 +424,7 @@ def main() -> None:
     act = set(ev.loc[ev["event_name"] == "activation", "user_id"])
     paid = set(ev.loc[ev["event_name"] == "paid_subscription", "user_id"])
     exp_users = ev.loc[ev["experiment_group"] != "none"]
-    grp_of = dict(zip(exp_users["user_id"], exp_users["experiment_group"]))
+    grp_of = dict(zip(exp_users["user_id"], exp_users["experiment_group"], strict=False))
     rate = {}
     for g in ("control", "treatment"):
         arm = {u for u, gg in grp_of.items() if gg == g}

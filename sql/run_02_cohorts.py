@@ -176,7 +176,7 @@ def figure(act: pd.DataFrame) -> str:
     ax.set_xticks(range(len(M_COLS)), M_COLS)
     ax.set_yticks(
         range(len(act)),
-        [f"{c}  (n={n})" for c, n in zip(act["cohort_month"], act["cohort_size"])],
+        [f"{c}  (n={n})" for c, n in zip(act["cohort_month"], act["cohort_size"], strict=False)],
     )
     for i in range(mat.shape[0]):
         for j in range(mat.shape[1]):

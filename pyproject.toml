@@ -1,0 +1,35 @@
+[project]
+name = "product-ab-funnel-analytics"
+version = "0.1.0"
+description = "A/B, funnel, cohorts, RFM and unit economics on one synthetic subscription dataset"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas==3.0.3",
+    "numpy==2.4.4",
+    "matplotlib==3.10.9",
+    "duckdb==1.5.5",
+    "scipy==1.17.1",
+    "openpyxl==3.1.5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1",
+    "ruff>=0.15",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+# vendor/ holds verbatim copies of the DSWoK skill cores — not ours to restyle.
+extend-exclude = ["vendor"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rfm", "retention_ltv", "funnel_analyzer", "ab_test_analyzer"]

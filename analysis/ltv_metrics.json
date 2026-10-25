@@ -279,6 +279,11 @@
       "conv": 0.3372,
       "ltv_per_acquired_12m": 1906.97
     },
+    "conv_uplift_itt_measured": {
+      "conv": 0.3283,
+      "ltv_per_acquired_12m": 1856.27,
+      "lift_pct": 16.41
+    },
     "retention_decay_b_+10pct": {
       "ltv_per_acquired_12m": 1523.7
     },
@@ -302,6 +307,7 @@
     },
     "ratio_conversion_over_retention": 1.16,
     "ab_uplift_pct": 19.59,
+    "ab_itt_uplift_pct": 16.41,
     "retention_multiplier_equivalent_to_ab_uplift": 1.227
   }
 }

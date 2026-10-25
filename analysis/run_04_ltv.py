@@ -38,15 +38,14 @@ SQL_DIR = PROJECT_DIR / "sql"
 FIG_DIR = PROJECT_DIR / "figures"
 OUT_DIR = PROJECT_DIR / "analysis"
 
-# Zero-dep core (delegated math). Add its dir to sys.path and import.
-# The DSWoK skills root is env-overridable; the author's path is only the default.
-SKILLS_ROOT = Path(
-    os.environ.get(
-        "DSWOK_SKILLS_ROOT",
-        "/Users/nikitaboarkin/Desktop/00 obsidian/obsidian/.claude/skills",
-    )
+# Zero-dep core (delegated math). A vendored copy ships in vendor/ so a clean
+# clone runs; point DSWOK_SKILLS_ROOT at a DSWoK checkout to use the live one.
+SKILLS_ROOT = os.environ.get("DSWOK_SKILLS_ROOT")
+CORE_DIR = (
+    Path(SKILLS_ROOT) / "retention-ltv-calculator" / "scripts"
+    if SKILLS_ROOT
+    else PROJECT_DIR / "vendor"
 )
-CORE_DIR = SKILLS_ROOT / "retention-ltv-calculator" / "scripts"
 sys.path.insert(0, str(CORE_DIR))
 import retention_ltv as rl  # noqa: E402
 
@@ -79,7 +78,9 @@ def load_raw() -> tuple[pd.DataFrame, pd.DataFrame]:
 def retention_points_from_sql() -> pd.DataFrame:
     """Run sql/04_ltv.sql → (period t, active_users, eligible_users, retention)."""
     sql = (SQL_DIR / "04_ltv.sql").read_text()
-    df = duckdb.connect().sql(sql).df()
+    con = duckdb.connect()
+    con.execute(f"SET file_search_path = '{PROJECT_DIR}'")
+    df = con.sql(sql).df()
     return df.rename(columns={"period": "t"})
 
 
@@ -102,7 +103,7 @@ def observed_cohort_ltv(
     users: pd.DataFrame, txn: pd.DataFrame, m: pd.DataFrame
 ) -> pd.DataFrame:
     """Per paid cohort: observed net revenue and LTV per payer (in-window)."""
-    charges = txn[~txn["is_refund"]].copy()
+    txn[~txn["is_refund"]].copy()
     net = (
         txn.groupby("user_id", as_index=False)["amount"]
         .sum()
@@ -232,18 +233,18 @@ def main() -> None:
             ),
             float(cac),
         )
-        for c, cac in zip(chan["conv"], chan["cac_rub"])
+        for c, cac in zip(chan["conv"], chan["cac_rub"], strict=False)
     ]
 
     # --- sensitivities ------------------------------------------------------
     # Pooled signup→paid conversion (computed above) × the A/B relative lift
     # read from the A/B leg's artifact — no hardcoded conversion or uplift.
     ab_metrics_path = OUT_DIR / "ab_metrics.json"
-    ab_rel_lift_pct = float(
-        json.loads(ab_metrics_path.read_text(encoding="utf-8"))["primary"][
-            "relative_lift_pct"
-        ]
-    )  # e.g. 19.59 (% relative)
+    ab_metrics = json.loads(ab_metrics_path.read_text(encoding="utf-8"))
+    ab_rel_lift_pct = float(ab_metrics["primary"]["relative_lift_pct"])  # 19.59
+    # Measured on `paid per signup` (ITT): the conditional lift diluted by the
+    # activation drop in treatment. This is what a rollout actually books.
+    ab_itt_lift_pct = float(ab_metrics["robustness_itt"]["relative_lift_pct"])  # 16.41
     conv_treat = conv * (1 + ab_rel_lift_pct / 100.0)
 
     def ltv_acq(conv_override: float, b_mult: float = 1.0) -> float:
@@ -267,6 +268,17 @@ def main() -> None:
         "conv_uplift_ab_+19.6pct": {
             "conv": round(conv_treat, 4),
             "ltv_per_acquired_12m": round(ltv_acq(conv_treat), 2),
+        },
+        # The measured effect. The entry above extrapolates the *conditional*
+        # `paid given activated` lift to every signup, which overstates it:
+        # activation itself was lower in treatment, so `paid per signup` moved
+        # +16.41%, not +19.59%. Cite this one as the effect of a rollout.
+        "conv_uplift_itt_measured": {
+            "conv": round(conv * (1 + ab_itt_lift_pct / 100.0), 4),
+            "ltv_per_acquired_12m": round(
+                ltv_acq(conv * (1 + ab_itt_lift_pct / 100.0)), 2
+            ),
+            "lift_pct": round(ab_itt_lift_pct, 2),
         },
         # Decay-exponent shocks. NOTE: b×0.9 is NOT a "+10% retention"
         # scenario — it is "the tail decays 10% slower", which lifts the
@@ -355,6 +367,7 @@ def main() -> None:
             conv_step_delta_pct / ret_step_delta_pct, 2
         ),
         "ab_uplift_pct": round(ab_rel_lift_pct, 2),
+        "ab_itt_uplift_pct": round(ab_itt_lift_pct, 2),
         "retention_multiplier_equivalent_to_ab_uplift": round(ret_mult_for_ab, 3),
     }
 
