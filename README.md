@@ -136,7 +136,7 @@
 
 ```bash
 uv sync --all-groups        # или: pip install -r requirements.txt
-uv run pytest -q            # 15 тестов: ядра, golden-воронка, SQL ↔ артефакты
+uv run pytest -q            # 16 тестов: ядра, golden-воронка, SQL ↔ артефакты
 ```
 
 **Аналитические ядра — из скиллов DSWoK, копия в репозитории.** Ноги не переписывают математику: `run_03_rfm.py` использует ядро `rfm`, `run_04_ltv.py` — `retention_ltv`, `run_05_funnel.py` — `funnel_analyzer`, `run_06_ab.py` — `ab_test_analyzer`. Все четыре лежат в [`vendor/`](vendor) (дословные копии `rfm-segmentation`, `retention-ltv-calculator`, `funnel-analysis`, `ab-test-analysis`), поэтому чистый клон запускается без внешних зависимостей. Чтобы взять живую версию скиллов вместо вендорной — задайте `DSWOK_SKILLS_ROOT`:
