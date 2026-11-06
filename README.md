@@ -17,6 +17,8 @@
 
 > **Вердикт: раскатывать (SHIP).** Вариант поднимает целевую конверсию `activation → paid` на **+19.59%** относительно (p=0.000946) без ухудшения guardrails. На равном шаге **+10%** относительно конверсия добавляет к LTV на привлечённого **+10.0%**, удержание — **+8.65%** (≈**1.2×**): рычаги сопоставимы по силе, но измерен и значим только конверсионный.
 
+**Public link:** живого демо нет · [кейс](https://nikitaboyarkin.github.io/projects/product-ab-funnel/) · [исходники](https://github.com/NikitaBoyarkin/product-ab-funnel-analytics)
+
 ---
 
 ## Проблема
@@ -148,9 +150,11 @@
 | `openpyxl` | 3.1.5 |
 
 ```bash
-uv sync --all-groups        # или: pip install -r requirements.txt
+uv sync --all-groups        # рантайм + dev-группа (pytest, ruff)
 uv run pytest -q            # 16 тестов: ядра, golden-воронка, SQL ↔ артефакты
 ```
+
+`pip install -r requirements.txt` ставит **только рантайм-зависимости** (их хватает для аналитических прогонов ниже), но не `pytest`/`ruff`: тесты и линт требуют dev-группу из [`pyproject.toml`](pyproject.toml), то есть `uv sync --all-groups` и запуск через `uv run`.
 
 **Аналитические ядра — из скиллов DSWoK, копия в репозитории.** Ноги не переписывают математику: `run_03_rfm.py` использует ядро `rfm`, `run_04_ltv.py` — `retention_ltv`, `run_05_funnel.py` — `funnel_analyzer`, `run_06_ab.py` — `ab_test_analyzer`. Все четыре лежат в [`vendor/`](vendor) (дословные копии `rfm-segmentation`, `retention-ltv-calculator`, `funnel-analysis`, `ab-test-analysis`), поэтому чистый клон запускается без внешних зависимостей. Чтобы взять живую версию скиллов вместо вендорной — задайте `DSWOK_SKILLS_ROOT`:
 
