@@ -31,10 +31,20 @@ import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+RAW = ROOT / "data" / "raw"
 README = ROOT / "README.md"
 COHORT_METRICS = ROOT / "sql" / "results" / "02_cohort_metrics.json"
 RFM_METRICS = ROOT / "analysis" / "rfm_metrics.json"
 LTV_METRICS = ROOT / "analysis" / "ltv_metrics.json"
+
+RAW_INPUTS = ("users.csv", "events.csv", "transactions.csv")
+
+
+def test_raw_inputs_are_present():
+    """A drift gate over absent inputs proves nothing; fail loudly instead."""
+    for name in RAW_INPUTS:
+        path = RAW / name
+        assert path.is_file(), f"missing raw input {path}"
 
 
 def _load(name: str, rel: str):
